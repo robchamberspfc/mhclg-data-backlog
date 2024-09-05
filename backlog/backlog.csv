@@ -1,0 +1,5 @@
+Ref,Primary Service Area,As a [user],I need [need],In order to [purpose],Priority,Stage,Proposed by,Case for standard,Specification,Number of rules,Foundational ,Repeatability ,Maturity ,Impact ,Need ,Legal/regulatory ,Technical feasibility ,Content feasibility ,Tenant,Housing officer,Finance,Scheduler,Maintenance,Customer service,Trade person,Repairs,Asset management,Housing support
+R1,Reactive repairs,Trade person,A view of planned works,Provide appropriate repair,High,Backlog,Newark & Sherwood,Case for planned works,Spec for planned works,43,5,5,5,5,5,5,5,5,TRUE,FALSE,FALSE,TRUE,FALSE,TRUE,FALSE,,,
+R2,Planned maintenance,Trade person,A view of requested repairs,Provide appropriate maintenance ,High,Triage,Lancaster,,,15,4,4,4,4,4,4,4,4,TRUE,FALSE,FALSE,TRUE,TRUE,TRUE,FALSE,,,
+R3,Planned maintenance,Trade person,A view of repair history,Provide appropriate repair,Medium,Research,Lancaster,,,15,3,3,3,3,3,3,3,3,TRUE,FALSE,FALSE,TRUE,TRUE,TRUE,FALSE,,,
+R4,Reactive repairs,Trade person,A view of compliance issues,Provide appropriate repair,High,Co-design,Greenwich,,,25,2,2,2,2,2,2,2,2,TRUE,TRUE,FALSE,TRUE,TRUE,TRUE,FALSE,,,
