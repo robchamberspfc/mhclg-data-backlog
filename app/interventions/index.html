@@ -14,7 +14,9 @@
     <main role="main" id="content" tabindex="-1">
         <div class="container">
             <div class="row">
-                <h2 id="title">Interventions for <span id = "title">XXXXXX</span></h2>
+                <h2 id="title">Interventions for: <br>
+                    I need: <span id = "need">XXXXXX</span> <br>
+                    In order to: <span id = "to">XXXXXX</span></h2>
             </div>
             <div class="row">
                 <div class="mt-4 col-md-12">
@@ -38,7 +40,8 @@
         const url = window.location.search
         const urlParams = new URLSearchParams(url);
         const intervention = urlParams.get('intervention').toLowerCase()
-        const title = urlParams.get('title')
+        const need = urlParams.get('need')
+        const to = urlParams.get('to')
         const tableRef = document.getElementById("tableBody");
         const tableHead = document.getElementById("tableHead");
         const filters = document.getElementById("filters");
@@ -47,7 +50,8 @@
         const csvUrlBase = 'https://raw.githubusercontent.com/robchamberspfc/mhclg-data-backlog/main/backlog/'
         const csvUrl = `${csvUrlBase}/${intervention}/${intervention}.csv`
         
-        document.getElementById("title").innerHTML=title
+        document.getElementById("need").innerHTML=need
+        document.getElementById("to").innerHTML=to
 
         const config = {
             "structure": [{

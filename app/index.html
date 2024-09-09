@@ -112,10 +112,7 @@
                     if (config.structure[j].name == "Ref"){
                         let a = document.createElement('a');
                         a.appendChild(text);
-                        a.href = `interventions?intervention=${label}&title=${data[i]["I need [need]"]} to ${data[i]["In order to [purpose]"]}`;
-
-                        
-
+                        a.href = `interventions?intervention=${label}&need=${data[i]["I need [need]"]}&to=${data[i]["In order to [purpose]"]}`;
                         Cell.appendChild(a);
                     } else {
                         Cell.appendChild(text);
