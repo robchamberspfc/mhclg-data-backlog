@@ -34,28 +34,28 @@
     </main>
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script>
+
+        const url = window.location.search
+        const urlParams = new URLSearchParams(url);
+        const intervention = urlParams.get('intervention').toLowerCase()
         const tableRef = document.getElementById("tableBody");
         const tableHead = document.getElementById("tableHead");
         const filters = document.getElementById("filters");
         const tr = tableRef.getElementsByTagName("tr");
         // const thead = document.getElementById('header');
-        const csvUrl = 'https://raw.githubusercontent.com/robchamberspfc/mhclg-data-backlog/main/backlog/backlog.csv'
+        const csvUrlBase = 'https://raw.githubusercontent.com/robchamberspfc/mhclg-data-backlog/main/backlog/'
+        const csvUrl = `${csvUrlBase}/${intervention}/${intervention}.csv`
+        
 
         const config = {
             "structure": [{
-                "name": "Ref",
+                "name": "ID",
             }, {
-                "name": "Primary Service Area",
+                "name": "Name",
             }, {
-                "name": "As a [user]",
-            }, {
-                "name": "Priority",
-            }, {
-                "name": "Stage",
-            }, {
-                "name": "Proposed by",
+                "name": "Type",
             }],
-            "filters": ["Primary Service Area", "Priority", "Stage"]
+            "filters": ["Type"]
         }
 
         for (i = 0; i < config.filters.length; i++) {
@@ -98,18 +98,8 @@
                 let newRow = tableRef.insertRow(-1);
                 for (j = 0; j < config.structure.length; j++) {
                     let Cell = newRow.insertCell(j);
-                    label = data[i][config.structure[j].name]
-                    let text = document.createTextNode(label);
-                    if (config.structure[j].name == "Ref"){
-                        let a = document.createElement('a');
-                        a.appendChild(text);
-                        a.href = `app/interventions?intervention=${label}`;
-                        Cell.appendChild(a);
-                    } else {
-                        Cell.appendChild(text);
-                    }
-
-                    
+                    let Text = document.createTextNode(data[i][config.structure[j].name]);
+                    Cell.appendChild(Text);
                 }
             }
         };
