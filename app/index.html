@@ -48,7 +48,16 @@
                 "name": "Primary Service Area",
             }, {
                 "name": "As a [user]",
-            }, {
+                
+            }, 
+             {
+                "name": "I need [need]"
+                },
+            
+             {
+                "name": "In order to [purpose]"
+                
+            },{
                 "name": "Priority",
             }, {
                 "name": "Stage",
@@ -103,7 +112,10 @@
                     if (config.structure[j].name == "Ref"){
                         let a = document.createElement('a');
                         a.appendChild(text);
-                        a.href = `app/interventions?intervention=${label}`;
+                        a.href = `interventions?intervention=${label}&title=${data[i]["I need [need]"]} to ${data[i]["In order to [purpose]"]}`;
+
+                        
+
                         Cell.appendChild(a);
                     } else {
                         Cell.appendChild(text);
