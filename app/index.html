@@ -43,27 +43,28 @@
 
         const config = {
             "structure": [{
-                "name": "Ref",
-            }, {
-                "name": "Primary Service Area",
-            }, {
-                "name": "As a [user]",
-                
-            }, 
-             {
-                "name": "I need [need]"
+                    "name": "Ref",
+                }, {
+                    "name": "Primary Service Area",
+                }, {
+                    "name": "As a [user]",
+
                 },
-            
-             {
-                "name": "In order to [purpose]"
-                
-            },{
-                "name": "Priority",
-            }, {
-                "name": "Stage",
-            }, {
-                "name": "Proposed by",
-            }],
+                {
+                    "name": "I need [need]"
+                },
+
+                {
+                    "name": "In order to [purpose]"
+
+                }, {
+                    "name": "Priority",
+                }, {
+                    "name": "Stage",
+                }, {
+                    "name": "Proposed by",
+                }
+            ],
             "filters": ["Primary Service Area", "Priority", "Stage"]
         }
 
@@ -109,16 +110,15 @@
                     let Cell = newRow.insertCell(j);
                     label = data[i][config.structure[j].name]
                     let text = document.createTextNode(label);
-                    if (config.structure[j].name == "Ref"){
+                    if (config.structure[j].name == "Ref") {
                         let a = document.createElement('a');
                         a.appendChild(text);
-                        a.href = `interventions?intervention=${label}&need=${data[i]["I need [need]"]}&to=${data[i]["In order to [purpose]"]}`;
+                        a.href =
+                            `interventions?intervention=${label}&need=${data[i]["I need [need]"]}&to=${data[i]["In order to [purpose]"]}`;
                         Cell.appendChild(a);
                     } else {
                         Cell.appendChild(text);
                     }
-
-                    
                 }
             }
         };

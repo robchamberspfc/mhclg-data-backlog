@@ -60,6 +60,8 @@
                 "name": "Name",
             }, {
                 "name": "Type",
+            }, {
+                "name": "File",
             }],
             "filters": ["Type"]
         }
@@ -104,8 +106,17 @@
                 let newRow = tableRef.insertRow(-1);
                 for (j = 0; j < config.structure.length; j++) {
                     let Cell = newRow.insertCell(j);
-                    let Text = document.createTextNode(data[i][config.structure[j].name]);
-                    Cell.appendChild(Text);
+                    label = data[i][config.structure[j].name]
+                    let text = document.createTextNode(label);
+                    if (config.structure[j].name == "File") {
+                        let a = document.createElement('a');
+                        a.appendChild(text);
+                        a.href =
+                            `/interventions/${data[i]["ID"]}/${label}`;
+                        Cell.appendChild(a);
+                    } else {
+                        Cell.appendChild(text);
+                    }
                 }
             }
         };
