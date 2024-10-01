@@ -42,77 +42,83 @@
         const intervention = urlParams.get('intervention').toLowerCase()
         const need = urlParams.get('need')
         const to = urlParams.get('to')
+        const sheetLink = urlParams.get('link')
+        const format = urlParams.get('view')
         const tableRef = document.getElementById("tableBody");
         const tableHead = document.getElementById("tableHead");
         const filters = document.getElementById("filters");
         const tr = tableRef.getElementsByTagName("tr");
-        // const thead = document.getElementById('header');
-        const csvUrlBase = 'https://raw.githubusercontent.com/robchamberspfc/mhclg-data-backlog/main/backlog/'
-        const csvUrl = `${csvUrlBase}/${intervention}/${intervention}.csv`
         
+        console.log(format)
         document.getElementById("need").innerHTML=need
         document.getElementById("to").innerHTML=to
 
-        const config = {
-            "structure": [{
-                "name": "ID",
-            }, {
-                "name": "Name",
-            }, {
-                "name": "Type",
-            }, {
-                "name": "File",
-            }],
-            "filters": ["Type"]
-        }
+        let sheetLinkPartial = sheetLink.split("/d/")[1]
+        let sheetID = sheetLinkPartial.split("/edit")[0]
 
-        for (i = 0; i < config.filters.length; i++) {
-            filters.innerHTML +=
-                `<div class="col">
+        const csvUrl = `https://docs.google.com/spreadsheet/ccc?key=${sheetID}&output=csv`
+        let filter = []
+        let structure = []
+        let configURL =
+            'https://docs.google.com/spreadsheet/ccc?key=1mHn5OqIJui16EhTQriWEJX7sReNVPkNkWFbyu5wwL6U&output=csv'
+        d3.csv(configURL).then(function (d) {
+            let filterName = format + "-filters"
+            console.log(filterName)
+            for (i = 0; i < d.length; i++) {
+                if (d[i][format] != "") {
+                    structure.push(d[i][format])
+                }
+                if (d[i][filterName] != "") {
+                    filter.push(d[i][filterName])
+                    filters.innerHTML +=
+                        `<div class="col">
                     <strong>
-                        <label for="choose${config.filters [i]}">Filter by ${config.filters [i]}
+                        <label for="choose${d[i][filterName]}">Filter by ${d[i][filterName]}
                             </label> <br>
-                            <select class="custom-select" name="choose${config.filters [i]}" onchange="filterTable()"
-                                id="choose${config.filters [i]}">
-                                <option selected>Select ${config.filters [i]}</option>
+                            <select class="custom-select" name="choose${d[i][filterName]}" onchange="filterTable()"
+                                id="choose${d[i][filterName]}">
+                                <option selected>Select ${d[i][filterName]}</option>
                             </select>
-                        
                     </strong>
                 </div>`;
-        }
-
-        d3.csv(csvUrl).then(function (d) {
-            headerNames = Object.keys(d[0])
-            for (k = 0; k < config.filters.length; k++) {
-                let selectValues = []
-                let values = []
-                values = d3.group(d, d => d[config.filters[k]])
-                for (item of values.keys()) {
-                    selectValues.push(item)
                 }
-                populateSelect(selectValues, config.filters[k])
             }
-
-            populateTable(d, headerNames)
+            getBacklog(structure, filter)
         })
 
-        populateTable = data => {
+        getBacklog = (structure, filter) => {
+            d3.csv(csvUrl).then(function (d) {
+                headerNames = Object.keys(d[0])
+                for (k = 0; k < filter.length; k++) {
+                    let selectValues = []
+                    let values = []
+                    values = d3.group(d, d => d[filter[k]])
+                    for (item of values.keys()) {
+                        selectValues.push(item)
+                    }
+                    populateSelect(selectValues, filter[k])
+                }
+                populateTable(d, structure)
+            })
+        }
+
+        populateTable = (data, structure2) => {
             let newHeader = tableHead.insertRow(0);
-            for (i = 0; i < config.structure.length; i++) {
-                newHeader.insertCell(-1).outerHTML = `<th>${config.structure[i].name}</th>`
+            for (i = 0; i < structure2.length; i++) {
+                newHeader.insertCell(-1).outerHTML = `<th>${structure2[i]}</th>`
             }
 
             for (i = 0; i < data.length; i++) {
                 let newRow = tableRef.insertRow(-1);
-                for (j = 0; j < config.structure.length; j++) {
+                for (j = 0; j < structure2.length; j++) {
                     let Cell = newRow.insertCell(j);
-                    label = data[i][config.structure[j].name]
+                    label = data[i][structure2[j]]
                     let text = document.createTextNode(label);
-                    if (config.structure[j].name == "File") {
+                    if (structure2[j] == "Ref") {
                         let a = document.createElement('a');
                         a.appendChild(text);
                         a.href =
-                            `/mhclg-data-backlog/interventions/${data[i]["ID"]}/${label}`;
+                            `interventions?intervention=${label}&need=${data[i]["I need [need]"]}&to=${data[i]["In order to [purpose]"]}&link=${data[i]["Interventions sheet link"]}`;
                         Cell.appendChild(a);
                     } else {
                         Cell.appendChild(text);
@@ -137,12 +143,12 @@
             for (i = 0; i < tr.length; i++) {
                 tr[i].style.display = "";
             }
-            for (j = 0; j < config.filters.length; j++) {
-                let selectMenu = document.getElementById("choose" + [config.filters[j]]);
+            for (j = 0; j < filter.length; j++) {
+                let selectMenu = document.getElementById("choose" + filter[j]);
                 text = selectMenu.selectedOptions[0].text.toUpperCase();
-                if (text != "SELECT " + config.filters[j].toUpperCase()) {
-                    let temp = config.structure
-                    const index = temp.findIndex(temp => temp.name === config.filters[j]);
+                if (text != "SELECT " + filter[j].toUpperCase()) {
+                    let temp = structure
+                    const index = temp.findIndex(temp => temp === filter[j]);
                     filterRows(tr, text, index)
                 }
             }

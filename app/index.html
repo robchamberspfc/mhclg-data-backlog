@@ -107,7 +107,7 @@
                         let a = document.createElement('a');
                         a.appendChild(text);
                         a.href =
-                            `interventions?intervention=${label}&need=${data[i]["I need [need]"]}&to=${data[i]["In order to [purpose]"]}`;
+                            `interventions?view=interventions&intervention=${label}&need=${data[i]["I need [need]"]}&to=${data[i]["In order to [purpose]"]}&link=${data[i]["Interventions sheet link"]}`;
                         Cell.appendChild(a);
                     } else {
                         Cell.appendChild(text);
