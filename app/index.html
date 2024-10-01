@@ -103,7 +103,7 @@
                     let Cell = newRow.insertCell(j);
                     label = data[i][structure2[j]]
                     let text = document.createTextNode(label);
-                    if (structure2[j] == "Ref") {
+                    if (structure2[j] == "Ref" && data[i]["Interventions sheet link"] != 0) {
                         let a = document.createElement('a');
                         a.appendChild(text);
                         a.href =
