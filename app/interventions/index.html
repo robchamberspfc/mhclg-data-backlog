@@ -63,7 +63,6 @@
             'https://docs.google.com/spreadsheet/ccc?key=1mHn5OqIJui16EhTQriWEJX7sReNVPkNkWFbyu5wwL6U&output=csv'
         d3.csv(configURL).then(function (d) {
             let filterName = format + "-filters"
-            console.log(filterName)
             for (i = 0; i < d.length; i++) {
                 if (d[i][format] != "") {
                     structure.push(d[i][format])
