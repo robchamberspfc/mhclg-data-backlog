@@ -39,7 +39,7 @@
         const filters = document.getElementById("filters");
         const tr = tableRef.getElementsByTagName("tr");
         // const thead = document.getElementById('header');
-        const csvUrl = 'https://raw.githubusercontent.com/robchamberspfc/mhclg-data-backlog/main/backlog/backlog.csv'
+        const csvUrl = 'https://docs.google.com/spreadsheet/ccc?key=1T6qdV4jyk_F7Pdg04TnipO1itLmT8sgJ-egR2zM-ZWI&output=csv'
         //https://docs.google.com/spreadsheet/ccc?key=1T6qdV4jyk_F7Pdg04TnipO1itLmT8sgJ-egR2zM-ZWI&output=csv
         const config = {
             "structure": [{
@@ -48,24 +48,13 @@
                     "name": "Primary Service Area",
                 }, {
                     "name": "As a [user]",
-
-                },
-                {
+                }, {
                     "name": "I need [need]"
-                },
-
-                {
+                }, {
                     "name": "In order to [purpose]"
-
-                }, {
-                    "name": "Priority",
-                }, {
-                    "name": "Stage",
-                }, {
-                    "name": "Proposed by",
                 }
             ],
-            "filters": ["Primary Service Area", "Priority", "Stage"]
+            "filters": ["Primary Service Area", "As a [user]"]
         }
 
         for (i = 0; i < config.filters.length; i++) {
@@ -78,7 +67,6 @@
                                 id="choose${config.filters [i]}">
                                 <option selected>Select ${config.filters [i]}</option>
                             </select>
-                        
                     </strong>
                 </div>`;
         }
