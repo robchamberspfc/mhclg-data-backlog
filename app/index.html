@@ -46,21 +46,24 @@
         const urlParams = new URLSearchParams(url);
         const format = urlParams.get('view')
         const csvUrl =
-            'https://docs.google.com/spreadsheet/ccc?key=1T6qdV4jyk_F7Pdg04TnipO1itLmT8sgJ-egR2zM-ZWI&output=csv'
-        let filter = []
-        let structure = []
-        let configURL =
-            'https://docs.google.com/spreadsheet/ccc?key=1mHn5OqIJui16EhTQriWEJX7sReNVPkNkWFbyu5wwL6U&output=csv'
-        d3.csv(configURL).then(function (d) {
-            let filterName = format + "-filters"
-            for (i = 0; i < d.length; i++) {
-                if (d[i][format] != "") {
-                    structure.push(d[i][format])
-                }
-                if (d[i][filterName] != "") {
-                    filter.push(d[i][filterName])
-                    filters.innerHTML +=
-                        `<div class="col">
+                'https://docs.google.com/spreadsheet/ccc?key=1T6qdV4jyk_F7Pdg04TnipO1itLmT8sgJ-egR2zM-ZWI&output=csv'
+
+        if (format != "") {
+
+            let filter = []
+            let structure = []
+            let configURL =
+                'https://docs.google.com/spreadsheet/ccc?key=1mHn5OqIJui16EhTQriWEJX7sReNVPkNkWFbyu5wwL6U&output=csv'
+            d3.csv(configURL).then(function (d) {
+                let filterName = format + "-filters"
+                for (i = 0; i < d.length; i++) {
+                    if (d[i][format] != "") {
+                        structure.push(d[i][format])
+                    }
+                    if (d[i][filterName] != "") {
+                        filter.push(d[i][filterName])
+                        filters.innerHTML +=
+                            `<div class="col">
                     <strong>
                         <label for="choose${d[i][filterName]}">Filter by ${d[i][filterName]}
                             </label> <br>
@@ -70,10 +73,13 @@
                             </select>
                     </strong>
                 </div>`;
+                    }
                 }
-            }
-            getBacklog(structure, filter)
-        })
+                getBacklog(structure, filter)
+            })
+        } else {
+            filters.innerHTML = `<strong>Ensure you have 'view=' parameter set in the URL to match item in config spreadsheet</strong>`
+        }
 
         getBacklog = (structure, filter) => {
             d3.csv(csvUrl).then(function (d) {
